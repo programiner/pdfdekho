@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pdf Dekho - Powerful PDF Viewer & Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <meta name="google-site-verification" content="VvX_5r5J6F5_yzCxuD6TBj58Lof7GsXPxUUcR1w4iY0" />
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --secondary: #6c5ce7;
+            --accent: #fd79a8;
+            --light: rgba(255, 255, 255, 0.9);
+            --dark: #2d3436;
+            --gray: #636e72;
+            --glass: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f5f7fa 0%, #dfe6e9 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--light);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--glass-shadow);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 107, 255, 0.3);
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 107, 255, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+        
+        .btn-outline:hover {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(74, 107, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: -1;
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-weight: 700;
+            background: linear-gradient(to right, var(--dark), var(--gray));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        .app-screenshot {
+            max-width: 280px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            margin: 40px auto;
+            display: block;
+            transform: perspective(1000px) rotateY(0deg) rotateX(10deg);
+            transition: transform 0.5s ease;
+            border: 2px solid var(--glass-border);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .app-screenshot:hover {
+            transform: perspective(1000px) rotateY(5deg) rotateX(5deg);
+        }
+        
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .download-btn {
+            display: flex;
+            align-items: center;
+            padding: 12px 25px;
+            background: var(--dark);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .download-btn i {
+            font-size: 1.8rem;
+            margin-right: 10px;
+        }
+        
+        .download-btn span {
+            display: block;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .download-btn strong {
+            display: block;
+            font-size: 1.1rem;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .features::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to top, rgba(245, 247, 250, 1), rgba(245, 247, 250, 0));
+            z-index: 1;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s ease;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(31, 38, 135, 0.2);
+        }
+        
+        .feature-card:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+        
+        /* Screenshots Section */
+        .screenshots {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .screenshots::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(245, 247, 250, 1), rgba(245, 247, 250, 0));
+            z-index: 1;
+        }
+        
+        .screenshot-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 30px;
+            padding: 30px 10px;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+        
+        .screenshot-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .screenshot-container::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+        }
+        
+        .screenshot-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+        
+        .screenshot {
+            scroll-snap-align: start;
+            min-width: 280px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border: 2px solid var(--glass-border);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .screenshot:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: var(--glass);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(31, 38, 135, 0.2);
+        }
+        
+        .testimonial-card .stars {
+            color: #fbc531;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--gray);
+            position: relative;
+        }
+        
+        .testimonial-card p::before,
+        .testimonial-card p::after {
+            content: '"';
+            font-size: 1.5rem;
+            color: var(--primary);
+            opacity: 0.3;
+        }
+        
+        .testimonial-card p::before {
+            margin-right: 5px;
+        }
+        
+        .testimonial-card p::after {
+            margin-left: 5px;
+        }
+        
+        .testimonial-card .user {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-card .user img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+            border: 2px solid var(--glass-border);
+        }
+        
+        .testimonial-card .user-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .testimonial-card .user-info p {
+            font-style: normal;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin: 0;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            z-index: 0;
+            animation: float 8s infinite ease-in-out;
+        }
+        
+        .cta .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .cta p {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(to bottom, var(--dark), #1a1a1a);
+            color: white;
+            padding: 80px 0 30px;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, rgba(45, 52, 54, 0), rgba(45, 52, 54, 1));
+            z-index: 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: #bdc1c6;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #bdc1c6;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(50px, 50px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+        
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+        
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+        
+        .animate-delay-3 {
+            animation-delay: 0.6s;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .features-grid, .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .cta h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="https://play-lh.googleusercontent.com/c_jqQdJ8Nkm-t32Qf1HvjR-oH5Sz8eAcFsCOV80sEquTZNXIAC3EnhvNQQndQ3AN5g=w480-h960-rw" alt="Pdf Dekho Logo">
+                    <h1 style="color: #2D3537; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Pdf Dekho</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#screenshots">Screenshots</a></li>
+                    <li><a href="#testimonials">Reviews</a></li>
+                    <li><a href="#download" class="btn btn-outline">Download</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2 class="animate__animated animate__fadeInDown">Pdf Dekho : Read All Pdf</h2>
+            <p class="animate__animated animate__fadeInDown animate-delay-1">View, annotate, edit and manage PDF documents with the most powerful PDF reader for Android.</p>
+            <img src="https://play-lh.googleusercontent.com/c_jqQdJ8Nkm-t32Qf1HvjR-oH5Sz8eAcFsCOV80sEquTZNXIAC3EnhvNQQndQ3AN5g=w480-h960-rw" alt="Pdf Dekho Screenshot" class="app-screenshot animate__animated animate__fadeInUp animate-delay-2">
+            <div class="download-buttons">
+                <a href="https://play.google.com/store/apps/details?id=com.programiner.pdfreader&hl=en_IN" class="download-btn animate__animated animate__fadeInUp animate-delay-3">
+                    <i class="fab fa-google-play"></i>
+                    <div>
+                        <span>GET IT ON</span>
+                        <strong>Google Play</strong>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate__animated animate__fadeIn">Powerful PDF Features</h2>
+                <p class="animate__animated animate__fadeIn animate-delay-1">Everything you need to work with PDF documents on your Android device</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card animate__animated animate__fadeInUp">
+                    <i class="fas fa-eye"></i>
+                    <h3>Read PDFs</h3>
+                    <p>Open and view PDF documents with a smooth, fast and easy-to-use interface with multiple viewing modes.</p>
+                </div>
+                <div class="feature-card animate__animated animate__fadeInUp animate-delay-1">
+                    <i class="fas fa-highlighter"></i>
+                    <h3>Annotate</h3>
+                    <p>Highlight text, add notes, draw shapes, and add comments to your PDF documents.</p>
+                </div>
+                <div class="feature-card animate__animated animate__fadeInUp animate-delay-2">
+                    <i class="fas fa-edit"></i>
+                    <h3>Edit PDFs (soon)</h3>
+                    <p>Edit text and images in your PDF files directly on your Android device.</p>
+                </div>
+                <div class="feature-card animate__animated animate__fadeInUp">
+                    <i class="fas fa-lock"></i>
+                    <h3>Password Protected Pdf's</h3>
+                    <p>open your secured password protected pdf on our app</p>
+                </div>
+                <div class="feature-card animate__animated animate__fadeInUp animate-delay-1">
+                    <i class="fas fa-search"></i>
+                    <h3>Text Search (soon)</h3>
+                    <p>Quickly find text within your PDF documents with powerful search functionality.</p>
+                </div>
+                <div class="feature-card animate__animated animate__fadeInUp animate-delay-2">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Cloud Integration</h3>
+                    <p>Save your PDF's into Google Drive using our app.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots" id="screenshots">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate__animated animate__fadeIn">App Screenshots</h2>
+                <p class="animate__animated animate__fadeIn animate-delay-1">See Pdf Dekho in action</p>
+            </div>
+            <div class="screenshot-container">
+                <img src="https://play-lh.googleusercontent.com/wUhjgg_HpigWWa0-M5cgIEl3kkLeHOGQWT3kzyLdTOQTlDorfY3TBm4eyHviG1NfkcE=w5120-h2880-rw" alt="Screenshot 1" class="screenshot">
+                <img src="https://play-lh.googleusercontent.com/rQhDUNYRcay7AoudYi8PW6q3QG3ZEnfCCyyzMTryxx2URix0MH1jErEEy_y5flN6Fhg=w5120-h2880-rw" alt="Screenshot 2" class="screenshot">
+                <img src="https://play-lh.googleusercontent.com/u43FjpjQYE1rsins2QD4ogmFs4xQgu9cvonylDC5aUZtVfaTYuzAF752B_ZEPxPkFgI=w5120-h2880-rw" alt="Screenshot 3" class="screenshot">
+                <img src="https://play-lh.googleusercontent.com/S6g9cgpZ8WqdklhQRevnIffZ7L6vwP3i7BnDPt8zApx1kB0aQPRXHQe-xMAKivzAIOU=w5120-h2880-rw" alt="Screenshot 4" class="screenshot">
+                <img src="https://play-lh.googleusercontent.com/5I6Y2tYIABj60BeHT99OzfFJlAiISzn32Atmyi8QiGLsQy6OzJGlXJ-Jj49dsDOlfyg=w5120-h2880-rw" alt="Screenshot 5" class="screenshot">
+                <img src="https://play-lh.googleusercontent.com/K9KFgwtE33-tmPAned_RuQwKbHXiQ2xpGbDddZQe117MQWLOayDFumGq4VdKapWuWg=w5120-h2880-rw" alt="Screenshot 5" class="screenshot">
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate__animated animate__fadeIn">What Our Users Say</h2>
+                <p class="animate__animated animate__fadeIn animate-delay-1">Trusted by thousands of users worldwide</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card animate__animated animate__fadeInLeft">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>PDF Dekho is an amazing app for viewing and making PDFs, with an Amazing UI And its (Invert colour inside PDF) feature is 🔥... It just needs word Search feature and some marketing.....I highly recommend this app to u guys! Just try it :).</p>
+                    <div class="user">
+                        <img src="https://creatorspace.imgix.net/users/cluz7w74y07evpz01jfcdb8nz/EdmWgN42IJ8nLRGK-1000027555.webp?w=300&h=300" alt="User">
+                        <div class="user-info">
+                            <h4>Anand Sharma
+</h4>
+                            <p>Pdf Dekho User</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate__animated animate__fadeInLeft animate-delay-1">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p>Very nice theme and great app. Can you add nesting folder in your next update?
+.[and yes we have added it in our update ]</p>
+                    <div class="user">
+                        <img src="https://play-lh.googleusercontent.com/a-/ALV-UjUBfXGk3SH-PViXROq8UPU4ZhvySudY-1S8qGwqdw8mcfeqyJO0=s64-rw" alt="User">
+                        <div class="user-info">
+                            <h4>Shujaat Ali</h4>
+                            <p>Pdf Dekho User</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate__animated animate__fadeInLeft animate-delay-2">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p>Excellent App With No Glitches....</p>
+                    <div class="user">
+                        <img src="https://play-lh.googleusercontent.com/a-/ALV-UjXUpv5C3cGtoCU6A0g8mnbUybSIxvBpGfsHO1RWjA3HjX8HUM_h=s64-rw" alt="User">
+                        <div class="user-info">
+                            <h4>Varit Vardaan
+</h4>
+                            <p>Pdf Dekho User</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="download">
+        <div class="container">
+            <h2 class="animate__animated animate__fadeInDown">Ready to Transform Your PDF Experience?</h2>
+            <p class="animate__animated animate__fadeInDown animate-delay-1">Download Pdf Dekho today and take full control of your PDF documents on your Android device.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.programiner.pdfreader&hl=en_IN" class="btn animate__animated animate__pulse animate__infinite">
+                <i class="fab fa-google-play"></i> Download Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Pdf Dekho</h3>
+                    <p>The most powerful PDF reader and editor for Android devices.</p>
+                    <div class="social-links">
+                        <a href="https://github.com/programiner"><i class="fab fa-github"></i></a>
+                        <a href="https://x.com/teamprograminer"><i class="fab fa-x"></i></a>
+                        <a href="https://www.instagram.com/pdfdekho/"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/ajaz-ahmed-0b2157262/"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Features</h3>
+                    <ul>
+                        <li><a >PDF Viewer</a></li>
+                        <li><a >PDF Creator</a></li>
+                        <li><a >Image to PDF</a></li>
+                        <li><a >Organised Folders</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="https://programiner.github.io/">Website</a></li>
+                        <li><a href="https://programiner.github.io/portfolio/ajaz.html">About Us</a></li>
+                        <li><a href="https://www.termsfeed.com/live/39732908-6cfa-487e-8bb7-057f0c0d1a11">Privacy Policy</a></li>
+                        <li><a href="https://programiner.github.io/contact/ajaz.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="https://programiner.github.io/contact/ajaz.html">Help Center</a></li>
+                        <li><a href="https://programiner.github.io/contact/ajaz.html">Feedback</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025-26 Pdf Dekho. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple animation trigger on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate__animated');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add(entry.target.dataset.animate);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
